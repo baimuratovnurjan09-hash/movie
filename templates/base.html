@@ -1,0 +1,359 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    
+    <!-- Header -->
+<!-- Header -->
+<!-- Header -->
+<header class="header">
+    <div class="container">
+        <nav class="navbar">
+            <a href="/" class="logo">
+                <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                    <rect x="2" y="3" width="20" height="18" rx="2" stroke="#e50914" stroke-width="2"/>
+                    <path d="M8 3v18M16 3v18" stroke="#e50914" stroke-width="2"/>
+                    <circle cx="12" cy="12" r="3" fill="#e50914"/>
+                </svg>
+                <span>CinemaHub</span>
+            </a>
+
+            <ul class="nav-menu">
+                <li><a href="/" class="nav-link active">Главная</a></li>
+                <li><a href="/genres/" class="nav-link">Жанры</a></li>
+                <li><a href="/actors/" class="nav-link">Актеры</a></li>
+                <li><a href="/countries/" class="nav-link">Страны</a></li>
+            </ul>
+
+            <div class="nav-actions">
+                <!-- Кнопка поиска -->
+                <button class="icon-btn search-toggle" type="button" id="searchToggleBtn">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                </button>
+
+                <button class="mobile-toggle">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </button>
+            </div>
+        </nav>
+
+        <!-- Advanced Search Panel -->
+        <div class="advanced-search-panel" id="advancedSearchPanel">
+            <form class="advanced-search-form" method="GET" action="/">
+                <div class="search-row">
+                    <div class="search-field">
+                        <input 
+                            type="text" 
+                            name="q" 
+                            placeholder="Название фильма..." 
+                            class="search-field-input"
+                            value="{{ query }}"
+                        >
+                    </div>
+
+                    <div class="search-field">
+                        <input 
+                            type="number" 
+                            name="year" 
+                            placeholder="Год" 
+                            class="search-field-input"
+                            min="1900"
+                            max="2025"
+                            value="{{ year }}"
+                        >
+                    </div>
+
+                    <div class="search-field">
+                        <select name="genre" class="search-field-input">
+                            <option value="">Жанр</option>
+                            {% for g in genres %}
+                            <option value="{{ g.genre }}" {% if genre == g.genre %}selected{% endif %}>{{ g.genre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <div class="search-field">
+                        <select name="country" class="search-field-input">
+                            <option value="">Страна</option>
+                            {% for c in countries %}
+                            <option value="{{ c.name }}" {% if country == c.name %}selected{% endif %}>{{ c.name }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <button type="submit" class="search-submit-btn">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                        Найти
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</header>
+
+<style>
+/* Важно: эти стили переопределяют существующие */
+.advanced-search-panel {
+    background: rgba(10,10,10,0.98) !important;
+    border-bottom: 1px solid var(--border-color) !important;
+    padding: 0 !important;
+    max-height: 0 !important;
+    overflow: hidden !important;
+    opacity: 0 !important;
+    transition: all 0.4s ease !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.4) !important;
+}
+
+.advanced-search-panel.active {
+    max-height: 200px !important;
+    opacity: 1 !important;
+    padding: 25px 0 !important;
+}
+
+.advanced-search-panel .container {
+    max-width: 1400px !important;
+    margin: 0 auto !important;
+    padding: 0 40px !important;
+}
+
+.advanced-search-form {
+    width: 100% !important;
+}
+
+.search-row {
+    display: grid !important;
+    grid-template-columns: 2fr 1fr 1fr 1fr auto !important;
+    gap: 12px !important;
+    align-items: center !important;
+}
+
+.search-field {
+    position: relative !important;
+}
+
+.search-field-input {
+    width: 100% !important;
+    padding: 14px 20px !important;
+    background: rgba(26, 26, 26, 0.9) !important;
+    border: 1px solid rgba(255, 255, 255, 0.15) !important;
+    border-radius: 10px !important;
+    color: var(--text-primary) !important;
+    font-size: 14px !important;
+    transition: all 0.3s ease !important;
+}
+
+.search-field-input:focus {
+    outline: none !important;
+    border-color: var(--primary-color) !important;
+    background: rgba(26, 26, 26, 1) !important;
+    box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.15) !important;
+    transform: translateY(-1px) !important;
+}
+
+.search-field-input::placeholder {
+    color: rgba(179, 179, 179, 0.7) !important;
+}
+
+.search-submit-btn {
+    padding: 14px 32px !important;
+    background: linear-gradient(135deg, #e50914 0%, #c20710 100%) !important;
+    color: white !important;
+    border: none !important;
+    border-radius: 10px !important;
+    font-weight: 600 !important;
+    font-size: 14px !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 8px !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    white-space: nowrap !important;
+    box-shadow: 0 4px 15px rgba(229, 9, 20, 0.3) !important;
+}
+
+.search-submit-btn:hover {
+    background: linear-gradient(135deg, #ff0a16 0%, #d4080f 100%) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px rgba(229, 9, 20, 0.5) !important;
+}
+
+.search-submit-btn:active {
+    transform: translateY(0) !important;
+}
+
+/* Responsive */
+@media (max-width: 1200px) {
+    .search-row {
+        grid-template-columns: 1fr 1fr !important;
+        gap: 10px !important;
+    }
+    
+    .search-submit-btn {
+        grid-column: 1 / -1 !important;
+        justify-content: center !important;
+    }
+    
+    .advanced-search-panel.active {
+        max-height: 300px !important;
+    }
+}
+
+@media (max-width: 768px) {
+    .search-row {
+        grid-template-columns: 1fr !important;
+    }
+    
+    .advanced-search-panel.active {
+        max-height: 450px !important;
+    }
+}
+</style>
+
+<script>
+// === ADVANCED SEARCH TOGGLE ===
+document.addEventListener('DOMContentLoaded', function() {
+    const searchToggleBtn = document.getElementById('searchToggleBtn');
+    const advancedSearchPanel = document.getElementById('advancedSearchPanel');
+    
+    if (searchToggleBtn && advancedSearchPanel) {
+        searchToggleBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            
+            advancedSearchPanel.classList.toggle('active');
+            
+            // Debug в консоль
+            console.log('Search panel toggled:', advancedSearchPanel.classList.contains('active'));
+        });
+    } else {
+        console.error('Search elements not found!');
+        console.log('Toggle button:', searchToggleBtn);
+        console.log('Panel:', advancedSearchPanel);
+    }
+    
+    // Закрытие при клике вне панели
+    document.addEventListener('click', function(e) {
+        if (advancedSearchPanel && 
+            advancedSearchPanel.classList.contains('active') &&
+            !advancedSearchPanel.contains(e.target) &&
+            !searchToggleBtn.contains(e.target)) {
+            advancedSearchPanel.classList.remove('active');
+        }
+    });
+    
+    // Закрытие по Escape
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape' && advancedSearchPanel && advancedSearchPanel.classList.contains('active')) {
+            advancedSearchPanel.classList.remove('active');
+        }
+    });
+});
+</script>
+{% block content %}
+
+{% endblock %}
+
+
+
+    
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-section">
+                <div class="footer-logo">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none">
+                        <rect x="2" y="3" width="20" height="18" rx="2" stroke="#e50914" stroke-width="2"/>
+                        <path d="M8 3v18M16 3v18" stroke="#e50914" stroke-width="2"/>
+                        <circle cx="12" cy="12" r="3" fill="#e50914"/>
+                    </svg>
+                    <span>CinemaHub</span>
+                </div>
+                <p class="footer-description">
+                    Ваш лучший онлайн-кинотеатр с огромной коллекцией фильмов и сериалов в высоком качестве.
+                </p>
+                <div class="social-links">
+                    <a href="#" class="social-link" aria-label="Facebook">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Instagram">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+                            <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link" aria-label="Telegram">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M21.5 2.5l-19 7 5 2 11-7-8 9v6l3-3 4 2 3-16z"/>
+                        </svg>
+                    </a>
+                    <a href="#" class="social-link" aria-label="YouTube">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M23 9.7s-.2-1.7-1-2.4c-.9-1-1.9-1-2.4-1C16.4 6 12 6 12 6s-4.4 0-7.6.3c-.5.1-1.5.1-2.4 1-.7.7-1 2.4-1 2.4S1 11.7 1 13.7v1.8c0 2 .2 4 .2 4s.2 1.7 1 2.4c.9 1 2.1.9 2.6 1 1.9.2 7.2.2 7.2.2s4.4 0 7.6-.3c.5-.1 1.5-.1 2.4-1 .7-.7 1-2.4 1-2.4s.2-2 .2-4v-1.8c0-2-.2-4-.2-4zM9.5 15.5v-7l6.5 3.5-6.5 3.5z"/>
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <div class="footer-section">
+                <h3 class="footer-title">Навигация</h3>
+                <ul class="footer-links">
+                    <li><a href="/">Главная</a></li>
+                    <li><a href="/movies/">Фильмы</a></li>
+                    <li><a href="/genres/">Жанры</a></li>
+                    <li><a href="/actors/">Актеры</a></li>
+                    <li><a href="/new/">Новинки</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3 class="footer-title">Категории</h3>
+                <ul class="footer-links">
+                    <li><a href="/genre/action/">Боевики</a></li>
+                    <li><a href="/genre/comedy/">Комедии</a></li>
+                    <li><a href="/genre/drama/">Драмы</a></li>
+                    <li><a href="/genre/thriller/">Триллеры</a></li>
+                    <li><a href="/genre/animation/">Мультфильмы</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-section">
+                <h3 class="footer-title">Информация</h3>
+                <ul class="footer-links">
+                    <li><a href="/about/">О нас</a></li>
+                    <li><a href="/contact/">Контакты</a></li>
+                    <li><a href="/privacy/">Политика конфиденциальности</a></li>
+                    <li><a href="/terms/">Условия использования</a></li>
+                    <li><a href="/faq/">FAQ</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2024 CinemaHub. Все права защищены.</p>
+            <div class="footer-bottom-links">
+                <a href="/privacy/">Конфиденциальность</a>
+                <a href="/terms/">Условия</a>
+                <a href="/sitemap/">Карта сайта</a>
+            </div>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

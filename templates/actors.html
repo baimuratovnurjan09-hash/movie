@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block ati %}
+HOME
+{% endblock %}
+
+{% block content %}
+ 
+
+
+
+
+
+
+
+
+
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/actors.css' %}">
+
+
+    <main class="main-content">
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <div class="page-header-content">
+                    <div class="page-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                    </div>
+                    <h1 class="page-title">Актеры</h1>
+                    <p class="page-subtitle">Познакомьтесь с талантливыми актерами</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search and Filter -->
+        <section class="actors-controls">
+            <div class="container">
+                <div class="controls-wrapper">
+                    <div class="search-actors">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <path d="m21 21-4.35-4.35"></path>
+                        </svg>
+                        <input type="text" id="actorSearch" placeholder="Поиск актеров..." class="actor-search-input">
+                    </div>
+                    <div class="sort-options">
+                        <button class="sort-btn active" data-sort="name">По имени</button>
+                        <button class="sort-btn" data-sort="popular">Популярные</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Actors Grid -->
+        <section class="actors-section">
+            <div class="container">
+                <div class="actors-grid" id="actorsGrid">
+                    {% for actor in actors %}
+                    <div class="actor-card" data-name="{{ actor.full_name|lower }}">
+                        <a href="/actor/{{ actor.slug }}/" class="actor-link">
+                            <div class="actor-image-wrapper">
+                                {% if actor.image %}
+                                <img src="{{ actor.image.url }}" alt="{{ actor.full_name }}" class="actor-image" loading="lazy">
+                                {% else %}
+                                <img src="{% static 'images/no-actor.jpg' %}" alt="{{ actor.full_name }}" class="actor-image" loading="lazy">
+                                {% endif %}
+                                <div class="actor-overlay">
+                                    <div class="actor-info-overlay">
+                                        <h3 class="actor-name-overlay">{{ actor.full_name }}</h3>
+                                        <p class="actor-bio-preview">{{ actor.biography|truncatewords:15 }}</p>
+                                        <span class="view-more">Подробнее →</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="actor-info">
+                                <h3 class="actor-name">{{ actor.full_name }}</h3>
+                            </div>
+                        </a>
+                    </div>
+                    {% endfor %}
+                </div>
+
+                <!-- No Results -->
+                <div class="no-results-actors" style="display: none;">
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    <h3>Актеры не найдены</h3>
+                    <p>Попробуйте изменить поисковый запрос</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Alphabet Navigation -->
+        <section class="alphabet-nav">
+            <div class="container">
+                <div class="alphabet-buttons">
+                    <button class="alphabet-btn active" data-letter="all">Все</button>
+                    <button class="alphabet-btn" data-letter="а">А</button>
+                    <button class="alphabet-btn" data-letter="б">Б</button>
+                    <button class="alphabet-btn" data-letter="в">В</button>
+                    <button class="alphabet-btn" data-letter="г">Г</button>
+                    <button class="alphabet-btn" data-letter="д">Д</button>
+                    <button class="alphabet-btn" data-letter="е">Е</button>
+                    <button class="alphabet-btn" data-letter="ж">Ж</button>
+                    <button class="alphabet-btn" data-letter="з">З</button>
+                    <button class="alphabet-btn" data-letter="и">И</button>
+                    <button class="alphabet-btn" data-letter="к">К</button>
+                    <button class="alphabet-btn" data-letter="л">Л</button>
+                    <button class="alphabet-btn" data-letter="м">М</button>
+                    <button class="alphabet-btn" data-letter="н">Н</button>
+                    <button class="alphabet-btn" data-letter="о">О</button>
+                    <button class="alphabet-btn" data-letter="п">П</button>
+                    <button class="alphabet-btn" data-letter="р">Р</button>
+                    <button class="alphabet-btn" data-letter="с">С</button>
+                    <button class="alphabet-btn" data-letter="т">Т</button>
+                    <button class="alphabet-btn" data-letter="у">У</button>
+                    <button class="alphabet-btn" data-letter="ф">Ф</button>
+                    <button class="alphabet-btn" data-letter="х">Х</button>
+                    <button class="alphabet-btn" data-letter="ц">Ц</button>
+                    <button class="alphabet-btn" data-letter="ч">Ч</button>
+                    <button class="alphabet-btn" data-letter="ш">Ш</button>
+                    <button class="alphabet-btn" data-letter="щ">Щ</button>
+                    <button class="alphabet-btn" data-letter="э">Э</button>
+                    <button class="alphabet-btn" data-letter="ю">Ю</button>
+                    <button class="alphabet-btn" data-letter="я">Я</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/actors.js' %}"></script>
+{% endblock %}

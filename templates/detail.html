@@ -1,0 +1,193 @@
+
+{% extends 'base.html' %}
+{% load static %}
+
+{% block ati %}
+<title>{{ detail.title }} - CinemaHub</title>
+{% endblock %}
+
+{% block content %}
+    
+
+
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/detail.css' %}">
+
+    
+
+    <main class="main-content">
+        <!-- DEBUG INFO (удалите после исправления) -->
+        <!-- <div style="color: white; padding: 20px; background: red;">
+            <p>DEBUG: detail = {{ detail }}</p>
+            <p>DEBUG: title = {{ detail.title }}</p>
+            <p>DEBUG: image = {{ detail.image }}</p>
+        </div> -->
+        
+        <!-- Movie Hero Section -->
+        <section class="movie-hero" style="background-image: linear-gradient(to right, rgba(10,10,10,0.95) 0%, rgba(10,10,10,0.7) 50%, rgba(10,10,10,0.95) 100%), url('{{ detail.image.url }}');">
+            <div class="container">
+                <div class="movie-hero-content">
+                    <div class="movie-poster-large">
+                        {% if detail.image %}
+                        <img src="{{ detail.image.url }}" alt="{{ detail.title }}">
+                        {% else %}
+                        <img src="{% static 'images/no-poster.jpg' %}" alt="{{ detail.title }}">
+                        {% endif %}
+                        <div class="poster-overlay">
+                            <button class="btn-watch-now">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="white">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                                Смотреть сейчас
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="movie-details">
+                        <h1 class="movie-title-large">{{ detail.title }}</h1>
+                        
+                        <div class="movie-meta-info">
+                            <span class="meta-item">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                                    <line x1="16" y1="2" x2="16" y2="6"></line>
+                                    <line x1="8" y1="2" x2="8" y2="6"></line>
+                                    <line x1="3" y1="10" x2="21" y2="10"></line>
+                                </svg>
+                                {{ detail.year }}
+                            </span>
+                            <span class="meta-item">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <polyline points="12 6 12 12 16 14"></polyline>
+                                </svg>
+                                {{ detail.time }} мин
+                            </span>
+                            <span class="meta-item age-rating">{{ detail.age }}</span>
+                        </div>
+
+                        <div class="movie-genres">
+                            {% for genre in detail.genres.all %}
+                            <span class="genre-tag">{{ genre.genre }}</span>
+                            {% endfor %}
+                        </div>
+
+                        <p class="movie-description-large">{{ detail.description }}</p>
+
+                        <div class="movie-info-grid">
+                            <div class="info-item">
+                                <span class="info-label">Страны:</span>
+                                <span class="info-value">
+                                    {% for country in detail.counries.all %}
+                                        {{ country.name }}{% if not forloop.last %}, {% endif %}
+                                    {% endfor %}
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="action-buttons">
+                            <button class="btn btn-primary btn-play">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="white">
+                                    <path d="M8 5v14l11-7z"/>
+                                </svg>
+                                Смотреть
+                            </button>
+                            <button class="btn btn-secondary btn-trailer">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                    <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                                </svg>
+                                Трейлер
+                            </button>
+                            <button class="btn-icon btn-favorite" title="Добавить в избранное">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+                                </svg>
+                            </button>
+                            <button class="btn-icon btn-share" title="Поделиться">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="18" cy="5" r="3"></circle>
+                                    <circle cx="6" cy="12" r="3"></circle>
+                                    <circle cx="18" cy="19" r="3"></circle>
+                                    <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                                    <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Actors Section -->
+        <section class="actors-section">
+            <div class="container">
+                <h2 class="section-title">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="9" cy="7" r="4"></circle>
+                        <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                        <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                    </svg>
+                    В ролях
+                </h2>
+                <div class="actors-grid">
+                    {% for actor in detail.actors.all %}
+                    <div class="actor-card">
+                        <div class="actor-image">
+                            {% if actor.image %}
+                            <img src="{{ actor.image.url }}" alt="{{ actor.full_name }}">
+                            {% else %}
+                            <img src="{% static 'images/no-actor.jpg' %}" alt="{{ actor.full_name }}">
+                            {% endif %}
+                        </div>
+                        <div class="actor-info">
+                            <h3 class="actor-name">{{ actor.full_name }}</h3>
+                            <a href="/actor/{{ actor.slug }}/" class="actor-link">Подробнее →</a>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+
+        <!-- Movie Player Section -->
+        <section class="movie-player-section">
+            <div class="container">
+                <h2 class="section-title">
+                    <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                    </svg>
+                    Смотреть фильм
+                </h2>
+                <div class="player-container">
+                    <div class="video-wrapper">
+                        {% if detail.film %}
+                        <video id="moviePlayer" controls controlsList="nodownload" poster="{{ detail.image.url }}">
+                            <source src="{{ detail.film.url }}" type="video/mp4">
+                            Ваш браузер не поддерживает видео.
+                        </video>
+                        {% else %}
+                        <div class="no-video">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+                            </svg>
+                            <p>Видео недоступно</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        
+
+        <!-- Similar Movies Section -->
+        
+    </main>
+
+ 
+
+    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/detail.js' %}"></script>
+
+{% endblock %}

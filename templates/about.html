@@ -1,0 +1,124 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block ati %}
+ABOUT
+{% endblock %}
+
+{% block content %}
+
+    
+    <link rel="stylesheet" href="{% static 'css/about.css' %}">
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+
+
+        <main>
+            
+            <div class="content">
+                <div class="section">
+                    <h2>Наша миссия</h2>
+                    <p>
+                        
+                    </p>
+                    <p>
+                        
+                    </p>
+                </div>
+    
+                <div class="section">
+                    <h2>Наши достижения</h2>
+                    <div class="stats">
+                        <div class="stat-card">
+                            <div class="stat-number">10,000+</div>
+                            <div class="stat-label">Фильмов</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">500K+</div>
+                            <div class="stat-label">Пользователей</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">50+</div>
+                            <div class="stat-label">Стран</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-number">4.8★</div>
+                            <div class="stat-label">Рейтинг</div>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="section">
+                    <h2>Почему выбирают нас</h2>
+                    <div class="features">
+                        <div class="feature-card">
+                            <div class="feature-icon">🎬</div>
+                            <h3>Огромная коллекция</h3>
+                            <p>Тысячи фильмов и сериалов различных жанров на любой вкус — от классики до последних премьер.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">⚡</div>
+                            <h3>Высокая скорость</h3>
+                            <p>Мгновенная загрузка и плавное воспроизведение без буферизации благодаря современным технологиям.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">📱</div>
+                            <h3>Любые устройства</h3>
+                            <p>Смотрите где угодно: на компьютере, планшете, смартфоне или Smart TV.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🔒</div>
+                            <h3>Безопасность</h3>
+                            <p>Защита ваших данных и конфиденциальности на высшем уровне.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">💎</div>
+                            <h3>HD качество</h3>
+                            <p>Наслаждайтесь просмотром в качестве до 4K Ultra HD с объемным звуком.</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🌐</div>
+                            <h3>Мультиязычность</h3>
+                            <p>Субтитры и озвучка на множестве языков для комфортного просмотра.</p>
+                        </div>
+                    </div>
+                </div>
+    
+                <div class="section">
+                    <h2>Наша команда</h2>
+                    <p style="margin-bottom: 40px; font-size: 18px; line-height: 1.8; color: #b3b3b3;">
+                        Мы — команда энтузиастов, объединенных любовью к кино и технологиям. 
+                        Каждый день мы работаем над тем, чтобы сделать ваш опыт просмотра еще лучше.
+                    </p>
+                    <div class="team-grid">
+                        <div class="team-member">
+                            <div class="team-avatar">БН</div>
+                            <div class="team-name">Баймуратов Нуржан</div>
+                            <div class="team-role">Основатель & CEO</div>
+                            <p class="team-description">Визионер проекта с 15-летним опытом в IT-индустрии</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="team-avatar">РЖ</div>
+                            <div class="team-name">Рустеов Жахангир</div>
+                            <div class="team-role">Директор по контенту</div>
+                            <p class="team-description">Эксперт по кинематографу и куратор коллекции</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="team-avatar">ДК</div>
+                            <div class="team-name">Джангабаев Камрон</div>
+                            <div class="team-role">Технический директор</div>
+                            <p class="team-description">Архитектор платформы и лидер команды разработки</p>
+                        </div>
+                        <div class="team-member">
+                            <div class="team-avatar">РК</div>
+                            <div class="team-name">Рустемов Кудратбек</div>
+                            <div class="team-role">Руководитель поддержки</div>
+                            <p class="team-description">Всегда готова помочь нашим пользователям 24/7</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    
+        <script src="{% static 'js/about.js' %}"></script>
+        <script src="{% static 'js/script.js' %}"></script>
+{% endblock %}

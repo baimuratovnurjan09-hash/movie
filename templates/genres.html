@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block ati %}
+HOME
+{% endblock %}
+
+{% block content %}
+
+
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+    <link rel="stylesheet" href="{% static 'css/genres.css' %}">
+
+
+    <main class="main-content">
+        <!-- Page Header -->
+        <section class="page-header">
+            <div class="container">
+                <div class="page-header-content">
+                    <div class="page-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+                            <polyline points="17 2 12 7 7 2"></polyline>
+                        </svg>
+                    </div>
+                    <h1 class="page-title">Жанры</h1>
+                    <p class="page-subtitle">Выберите жанр и откройте для себя лучшие фильмы</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Search -->
+        <section class="genres-controls">
+            <div class="container">
+                <div class="search-genres">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    <input type="text" id="genreSearch" placeholder="Поиск жанров..." class="genre-search-input">
+                </div>
+            </div>
+        </section>
+
+        <!-- Genres Grid -->
+        <section class="genres-section">
+            <div class="container">
+                <div class="genres-grid" id="genresGrid">
+                    {% for genre in genres %}
+                    <a href="/?genre={{ genre.genre }}" class="genre-card" data-name="{{ genre.genre|lower }}">
+                        <div class="genre-card-inner">
+                            <div class="genre-icon">
+                                {% if 'боевик' in genre.genre|lower or 'action' in genre.genre|lower %}
+                                <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path>
+                                </svg>
+                                {% elif 'комедия' in genre.genre|lower or 'comedy' in genre.genre|lower %}
+                                <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
+                                    <line x1="9" y1="9" x2="9.01" y2="9"></line>
+                                    <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                                </svg>
+                                {% elif 'драма' in genre.genre|lower or 'drama' in genre.genre|lower %}
+                                <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                                {% elif 'ужасы' in genre.genre|lower or 'horror' in genre.genre|lower %}
+                                <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
+                                </svg>
+                                {% elif 'фантастика' in genre.genre|lower or 'sci-fi' in genre.genre|lower %}
+                                <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <circle cx="12" cy="12" r="6"></circle>
+                                    <circle cx="12" cy="12" r="2"></circle>
+                                </svg>
+                                {% elif 'мультфильм' in genre.genre|lower or 'animation' in genre.genre|lower %}
+                                <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                                </svg>
+                                {% elif 'триллер' in genre.genre|lower or 'thriller' in genre.genre|lower %}
+                                <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                                    <line x1="12" y1="9" x2="12" y2="13"></line>
+                                    <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                                </svg>
+                                {% else %}
+                                <svg width="50" height="50" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <rect x="2" y="7" width="20" height="15" rx="2" ry="2"></rect>
+                                    <polyline points="17 2 12 7 7 2"></polyline>
+                                </svg>
+                                {% endif %}
+                            </div>
+                            <h3 class="genre-name">{{ genre.genre }}</h3>
+                            <p class="genre-count">{{ genre.movie_count }} {{ genre.movie_count|pluralize:"фильм,фильма,фильмов" }}</p>
+                            <div class="genre-arrow">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                                    <polyline points="12 5 19 12 12 19"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+
+                <!-- No Results -->
+                <div class="no-results-genres" style="display: none;">
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    <h3>Жанры не найдены</h3>
+                    <p>Попробуйте изменить поисковый запрос</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+
+
+    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/genres.js' %}"></script>
+{% endblock %}

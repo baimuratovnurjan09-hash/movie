@@ -1,0 +1,332 @@
+/* === PAGE HEADER === */
+.page-header {
+    padding: 120px 0 60px;
+    background: linear-gradient(135deg, rgba(229, 9, 20, 0.1) 0%, rgba(10,10,10,1) 100%);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.page-header-content {
+    text-align: center;
+}
+
+.page-icon {
+    display: inline-flex;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+    animation: fadeInDown 0.6s ease;
+}
+
+.page-title {
+    font-size: 48px;
+    font-weight: 800;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+    animation: fadeInUp 0.6s ease 0.1s backwards;
+}
+
+.page-subtitle {
+    font-size: 18px;
+    color: var(--text-secondary);
+    animation: fadeInUp 0.6s ease 0.2s backwards;
+}
+
+/* === GENRES CONTROLS === */
+.genres-controls {
+    padding: 40px 0;
+    background: var(--dark-bg);
+}
+
+.search-genres {
+    max-width: 500px;
+    margin: 0 auto;
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 25px;
+    padding: 14px 24px;
+    transition: all 0.3s ease;
+}
+
+.search-genres:focus-within {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(229, 9, 20, 0.1);
+}
+
+.search-genres svg {
+    color: var(--text-secondary);
+    margin-right: 12px;
+}
+
+.genre-search-input {
+    flex: 1;
+    background: transparent;
+    border: none;
+    color: var(--text-primary);
+    font-size: 16px;
+    outline: none;
+}
+
+.genre-search-input::placeholder {
+    color: var(--text-secondary);
+}
+
+/* === GENRES GRID === */
+.genres-section {
+    padding: 60px 0 80px;
+    background: var(--dark-bg);
+    min-height: 600px;
+}
+
+.genres-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+}
+
+.genre-card {
+    display: block;
+    text-decoration: none;
+    opacity: 1;
+    transform: translateY(0);
+    transition: all 0.3s ease;
+}
+
+.genre-card.hidden {
+    display: none;
+}
+
+.genre-card-inner {
+    position: relative;
+    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(26,26,26,0.5) 100%);
+    border: 2px solid var(--border-color);
+    border-radius: 16px;
+    padding: 40px 30px;
+    text-align: center;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.genre-card-inner::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(229, 9, 20, 0.1) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.genre-card:hover .genre-card-inner {
+    border-color: var(--primary-color);
+    transform: translateY(-10px);
+    box-shadow: 0 20px 50px rgba(229, 9, 20, 0.2);
+}
+
+.genre-card:hover .genre-card-inner::before {
+    opacity: 1;
+}
+
+.genre-icon {
+    width: 100px;
+    height: 100px;
+    margin: 0 auto 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--primary-color) 0%, #c20710 100%);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(229, 9, 20, 0.3);
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.genre-card:hover .genre-icon {
+    transform: scale(1.1) rotate(-5deg);
+    box-shadow: 0 15px 40px rgba(229, 9, 20, 0.5);
+}
+
+.genre-icon svg {
+    color: white;
+}
+
+.genre-name {
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+    position: relative;
+    z-index: 1;
+    transition: color 0.3s ease;
+}
+
+.genre-card:hover .genre-name {
+    color: var(--primary-color);
+}
+
+.genre-count {
+    font-size: 15px;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+.genre-arrow {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(229, 9, 20, 0.1);
+    border-radius: 50%;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+}
+
+.genre-arrow svg {
+    color: var(--primary-color);
+    transition: transform 0.3s ease;
+}
+
+.genre-card:hover .genre-arrow {
+    background: var(--primary-color);
+}
+
+.genre-card:hover .genre-arrow svg {
+    color: white;
+    transform: translateX(5px);
+}
+
+/* === NO RESULTS === */
+.no-results-genres {
+    text-align: center;
+    padding: 80px 20px;
+    color: var(--text-secondary);
+}
+
+.no-results-genres svg {
+    margin: 0 auto 30px;
+    opacity: 0.3;
+}
+
+.no-results-genres h3 {
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: var(--text-primary);
+}
+
+.no-results-genres p {
+    font-size: 16px;
+}
+
+/* === ANIMATIONS === */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 1200px) {
+    .genres-grid {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    .page-title {
+        font-size: 36px;
+    }
+
+    .page-subtitle {
+        font-size: 16px;
+    }
+
+    .search-genres {
+        max-width: 100%;
+    }
+
+    .genres-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 15px;
+    }
+
+    .genre-card-inner {
+        padding: 30px 20px;
+    }
+
+    .genre-icon {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 20px;
+    }
+
+    .genre-icon svg {
+        width: 40px;
+        height: 40px;
+    }
+
+    .genre-name {
+        font-size: 20px;
+    }
+
+    .genre-count {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-header {
+        padding: 100px 0 40px;
+    }
+
+    .page-title {
+        font-size: 28px;
+    }
+
+    .genres-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 12px;
+    }
+
+    .genre-card-inner {
+        padding: 25px 15px;
+    }
+
+    .genre-icon {
+        width: 70px;
+        height: 70px;
+    }
+
+    .genre-icon svg {
+        width: 35px;
+        height: 35px;
+    }
+
+    .genre-name {
+        font-size: 18px;
+    }
+}

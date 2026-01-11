@@ -1,0 +1,249 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block ati %}
+HOME
+{% endblock %}
+
+{% block content %}
+    <link rel="stylesheet" href="{% static 'css/home.css' %}">
+
+    <main class="main-content">
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-bg"></div>
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <div class="hero-icon">
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M19.82 2H4.18A2.18 2.18 0 0 0 2 4.18v15.64A2.18 2.18 0 0 0 4.18 22h15.64A2.18 2.18 0 0 0 22 19.82V4.18A2.18 2.18 0 0 0 19.82 2zM7 2v20M17 2v20M2 12h20M2 7h5M2 17h5M17 17h5M17 7h5"></path>
+                    </svg>
+                </div>
+                <h1 class="hero-title">Путешествие в мир кино</h1>
+                <p class="hero-subtitle">Откройте для себя новые истории и жанры</p>
+            </div>
+        </section>
+
+        <!-- Filter Section (только если НЕТ поиска) -->
+        {% if not query and not year and not genre and not actor %}
+        <section class="filters">
+            <div class="container">
+                <div class="filter-tabs">
+                    <button class="filter-tab active" data-filter="all">Все фильмы</button>
+                    <button class="filter-tab" data-filter="new">Новинки</button>
+                    <button class="filter-tab" data-filter="popular">Популярные</button>
+                    <button class="filter-tab" data-filter="top">Топ рейтинг</button>
+                </div>
+            </div>
+        </section>
+        {% endif %}
+
+        <!-- Movies Section -->
+        <section class="movies-section">
+            <div class="container">
+                <!-- Заголовок секции -->
+                <h2 class="section-title">
+                    {% if query or year or genre or actor %}
+                        Результаты поиска
+                        {% if query %}: "{{ query }}"{% endif %}
+                        {% if year %} • Год: {{ year }}{% endif %}
+                        {% if genre %} • Жанр: {{ genre }}{% endif %}
+                        {% if actor %} • Актёр: {{ actor }}{% endif %}
+                    {% else %}
+                        Фильмы
+                    {% endif %}
+                </h2>
+                
+                <!-- Проверка наличия фильмов -->
+                {% if movies_paginated %}
+                <div class="movies-grid">
+                    {% for m in movies_paginated %}
+                    <a href="/movie/{{ m.id }}/" class="movie-card" data-id="{{ m.id }}">
+                        <div class="movie-poster">
+                            {% if m.image %}
+                            <img src="{{ m.image.url }}" alt="{{ m.title }}" loading="lazy">
+                            {% else %}
+                            <img src="{% static 'images/no-poster.jpg' %}" alt="{{ m.title }}" loading="lazy">
+                            {% endif %}
+                            <div class="movie-overlay">
+                                <div class="overlay-content">
+                                    <h3 class="overlay-title">{{ m.title }}</h3>
+                                    <div class="overlay-meta">
+                                        <span>{{ m.year }}</span>
+                                        <span>•</span>
+                                        <span>{{ m.time }} мин</span>
+                                    </div>
+                                    <div class="overlay-genres">
+                                        {% for genre in m.genres.all|slice:":2" %}
+                                            <span class="genre-badge">{{ genre.genre }}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <button class="overlay-play-btn">
+                                    <svg width="50" height="50" viewBox="0 0 24 24" fill="white">
+                                        <path d="M8 5v14l11-7z"/>
+                                    </svg>
+                                </button>
+                            </div>
+                            <span class="movie-age">{{ m.age }}</span>
+                            <span class="movie-year">{{ m.year }}</span>
+                        </div>
+                    </a>
+                    {% endfor %}
+                </div>
+
+                <!-- Pagination -->
+                {% if movies_paginated.has_other_pages %}
+                <div class="pagination">
+                    <div class="pagination-info-top">
+                        Показано {{ movies_paginated.start_index }}–{{ movies_paginated.end_index }} из {{ movies_paginated.paginator.count }} фильмов
+                    </div>
+                    
+                    <div class="pagination-container">
+                        <!-- Первая страница -->
+                        {% if movies_paginated.has_previous %}
+                        <a href="?page=1{% if query %}&q={{ query }}{% endif %}{% if year %}&year={{ year }}{% endif %}{% if genre %}&genre={{ genre }}{% endif %}{% if actor %}&actor={{ actor }}{% endif %}" class="pagination-btn" title="Первая страница">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="11 17 6 12 11 7"></polyline>
+                                <polyline points="18 17 13 12 18 7"></polyline>
+                            </svg>
+                        </a>
+                        <a href="?page={{ movies_paginated.previous_page_number }}{% if query %}&q={{ query }}{% endif %}{% if year %}&year={{ year }}{% endif %}{% if genre %}&genre={{ genre }}{% endif %}{% if actor %}&actor={{ actor }}{% endif %}" class="pagination-btn" title="Назад">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="15 18 9 12 15 6"></polyline>
+                            </svg>
+                        </a>
+                        {% endif %}
+
+                        <!-- Номера страниц -->
+                        <div class="pagination-numbers">
+                            {% for num in movies_paginated.paginator.page_range %}
+                                {% if movies_paginated.number == num %}
+                                    <span class="pagination-number active">{{ num }}</span>
+                                {% elif num > movies_paginated.number|add:'-3' and num < movies_paginated.number|add:'3' %}
+                                    <a href="?page={{ num }}{% if query %}&q={{ query }}{% endif %}{% if year %}&year={{ year }}{% endif %}{% if genre %}&genre={{ genre }}{% endif %}{% if actor %}&actor={{ actor }}{% endif %}" class="pagination-number">{{ num }}</a>
+                                {% elif num == 1 or num == movies_paginated.paginator.num_pages %}
+                                    <a href="?page={{ num }}{% if query %}&q={{ query }}{% endif %}{% if year %}&year={{ year }}{% endif %}{% if genre %}&genre={{ genre }}{% endif %}{% if actor %}&actor={{ actor }}{% endif %}" class="pagination-number">{{ num }}</a>
+                                {% elif num == movies_paginated.number|add:'-3' or num == movies_paginated.number|add:'3' %}
+                                    <span class="pagination-dots">...</span>
+                                {% endif %}
+                            {% endfor %}
+                        </div>
+
+                        <!-- Следующая страница -->
+                        {% if movies_paginated.has_next %}
+                        <a href="?page={{ movies_paginated.next_page_number }}{% if query %}&q={{ query }}{% endif %}{% if year %}&year={{ year }}{% endif %}{% if genre %}&genre={{ genre }}{% endif %}{% if actor %}&actor={{ actor }}{% endif %}" class="pagination-btn" title="Вперед">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                            </svg>
+                        </a>
+                        <a href="?page={{ movies_paginated.paginator.num_pages }}{% if query %}&q={{ query }}{% endif %}{% if year %}&year={{ year }}{% endif %}{% if genre %}&genre={{ genre }}{% endif %}{% if actor %}&actor={{ actor }}{% endif %}" class="pagination-btn" title="Последняя страница">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="13 17 18 12 13 7"></polyline>
+                                <polyline points="6 17 11 12 6 7"></polyline>
+                            </svg>
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endif %}
+                
+                {% else %}
+                <!-- Нет результатов -->
+                <div class="no-results">
+                    <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="11" cy="11" r="8"></circle>
+                        <path d="m21 21-4.35-4.35"></path>
+                    </svg>
+                    <h3>Ничего не найдено</h3>
+                    <p>Попробуйте изменить поисковый запрос</p>
+                </div>
+                {% endif %}
+            </div>
+        </section>
+    </main>
+
+    <style>
+    .pagination {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 25px;
+        margin-top: 60px;
+        padding: 30px 0;
+    }
+    
+    .pagination-info-top {
+        color: #b3b3b3;
+        font-size: 15px;
+        font-weight: 500;
+    }
+    
+    .pagination-container {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        background: #1a1a1a;
+        padding: 12px 20px;
+        border-radius: 50px;
+        border: 1px solid #2a2a2a;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    
+    .pagination-btn {
+        width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: transparent;
+        border-radius: 50%;
+        color: white;
+        transition: all 0.3s ease;
+    }
+    
+    .pagination-btn:hover {
+        background: rgba(229, 9, 20, 0.1);
+        color: #e50914;
+        transform: scale(1.1);
+    }
+    
+    .pagination-numbers {
+        display: flex;
+        gap: 4px;
+        margin: 0 8px;
+    }
+    
+    .pagination-number {
+        min-width: 38px;
+        height: 38px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        color: white;
+        font-weight: 600;
+        font-size: 15px;
+        transition: all 0.3s ease;
+        padding: 0 8px;
+    }
+    
+    .pagination-number:hover:not(.active) {
+        background: rgba(229, 9, 20, 0.1);
+        color: #e50914;
+        transform: scale(1.1);
+    }
+    
+    .pagination-number.active {
+        background: linear-gradient(135deg, #e50914 0%, #c20710 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(229, 9, 20, 0.4);
+    }
+    
+    .pagination-dots {
+        color: #b3b3b3;
+        padding: 0 8px;
+    }
+    </style>
+
+    <script src="{% static 'js/script.js' %}"></script>
+{% endblock %}
